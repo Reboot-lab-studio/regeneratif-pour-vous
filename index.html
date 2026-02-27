@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ce livre est-il pour vous ?</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Libre+Franklin:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script>var ow=console.warn;console.warn=function(m){if(typeof m==='string'&&m.indexOf('in-browser Babel')!==-1)return;ow.apply(console,arguments)};</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<style>
+:root{--fond:#1A1612;--creme:#F8F4EC;--or:#C4953A;--or-pale:#F5ECD7;--mousse:#4A6741;--mousse-pale:#E8F0E4;--terre:#5B4A3F;--gris:#9A9590;--blanc:#FEFCF8;--sable:#F0EBE1;--sable-dark:#E0D8CA;--rouge:#C0392B;--orange:#E67E22;--ambre:#C17817;--ciel:#3D6B7E;--vert:#27AE60}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Libre Franklin',sans-serif;background:var(--creme);color:var(--fond);line-height:1.65;min-height:100vh}h1,h2,h3{font-family:'Playfair Display',serif;font-weight:400}
+.app{max-width:720px;margin:0 auto;padding:20px}
+.hero{text-align:center;padding:50px 20px 36px;position:relative}.hero h1{font-size:clamp(1.8rem,4.5vw,2.8rem);color:var(--fond);margin-bottom:12px;letter-spacing:-.02em}.hero .accent{color:var(--or);font-style:italic}.hero .sub{font-size:1.05rem;color:var(--gris);max-width:500px;margin:0 auto;font-weight:300}.hero .pill{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;padding:6px 16px;border-radius:20px;margin-top:16px;background:var(--or-pale);color:var(--or);border:1px solid rgba(196,149,58,.3)}
+.card{background:var(--blanc);border-radius:20px;padding:36px;margin-bottom:22px;box-shadow:0 4px 30px rgba(26,22,18,.05);border:1px solid var(--sable-dark)}.card h2{font-size:1.3rem;color:var(--fond);margin-bottom:14px}.card p{color:var(--gris);margin-bottom:12px;font-size:.94rem}
+.qcard{background:var(--blanc);border-radius:20px;padding:36px;margin-bottom:16px;box-shadow:0 4px 30px rgba(26,22,18,.05);border:1px solid var(--sable-dark);text-align:center}
+.qcard .qnum{font-size:.72rem;font-weight:700;color:var(--or);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.qcard .qtxt{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--fond);line-height:1.5;margin-bottom:24px;max-width:560px;margin-left:auto;margin-right:auto}
+.opts{display:flex;flex-direction:column;gap:10px;max-width:480px;margin:0 auto}
+.opt{padding:14px 20px;border:2px solid var(--sable-dark);border-radius:14px;cursor:pointer;font-size:.92rem;color:var(--terre);font-weight:500;transition:all .25s;text-align:left;display:flex;align-items:center;gap:12px;background:var(--blanc)}.opt:hover{border-color:var(--or);background:var(--or-pale)}
+.opt.sel{border-color:var(--or);background:var(--or);color:#fff}
+.opt .opt-dot{width:24px;height:24px;border-radius:50%;border:2px solid var(--sable-dark);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.opt.sel .opt-dot{border-color:#fff;background:#fff}
+.opt.sel .opt-dot::after{content:'\2713';color:var(--or);font-weight:700;font-size:.82rem}
+.pbar{height:6px;background:var(--sable-dark);border-radius:3px;overflow:hidden;margin-bottom:20px}.pfill{height:100%;border-radius:3px;transition:width .5s;background:var(--or)}
+.gauge{position:relative;width:100%;max-width:480px;margin:20px auto;height:32px;border-radius:16px;overflow:hidden;display:flex}
+.gauge-seg{flex:1;display:flex;align-items:center;justify-content:center;font-size:.56rem;font-weight:700;color:rgba(255,255,255,.85);transition:all .3s}
+.gauge-marker{position:absolute;top:-6px;width:4px;height:44px;background:var(--fond);border-radius:2px;transition:left .8s cubic-bezier(.4,0,.2,1);z-index:2}
+.gauge-marker::after{content:'';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:6px solid var(--fond)}
+.result-score{text-align:center;margin:24px 0}.result-score .rs-num{font-family:'Playfair Display',serif;font-size:4rem;font-weight:700;line-height:1}.result-score .rs-label{font-family:'Playfair Display',serif;font-size:1.3rem;margin-top:4px}
+.result-desc{font-size:.98rem;color:var(--terre);line-height:1.7;text-align:center;max-width:560px;margin:0 auto 20px;padding:0 16px}
+.chap-reco{display:flex;gap:10px;padding:12px 0;border-bottom:1px solid var(--sable-dark);align-items:flex-start}.chap-reco:last-child{border-bottom:none}
+.chap-reco .cr-prio{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.72rem;color:#fff;flex-shrink:0}
+.chap-reco .cr-body{flex:1}.chap-reco .cr-title{font-weight:700;font-size:.88rem;color:var(--fond)}.chap-reco .cr-why{font-size:.8rem;color:var(--gris);line-height:1.5;margin-top:2px}
+.btn{padding:14px 32px;border:none;border-radius:12px;font-family:'Libre Franklin',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:8px}
+.bp{background:var(--or);color:#fff}.bp:hover{background:#D4A544;transform:translateY(-1px)}.bp:disabled{background:var(--sable-dark);color:var(--gris);cursor:not-allowed;transform:none}
+.bs{background:var(--creme);color:var(--terre);border:1px solid var(--sable-dark)}.bs:hover{background:var(--sable)}
+.cta{background:linear-gradient(135deg,var(--fond),var(--terre));border-radius:16px;padding:32px;margin:20px 0;text-align:center;color:var(--creme)}.cta h2{color:var(--or);font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:8px}.cta p{color:rgba(248,244,236,.8);font-size:.9rem;margin-bottom:16px}.cta-btn{display:inline-block;background:var(--or);color:#fff;padding:12px 28px;border-radius:12px;font-weight:600;font-size:.95rem;border:none;cursor:pointer;font-family:'Libre Franklin',sans-serif}.cta-btn:hover{background:#D4A544}
+.share-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:16px 0}
+.foot{text-align:center;padding:24px 20px;font-size:.78rem;color:var(--gris);line-height:1.8}
+@keyframes fi{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pop{0%{transform:scale(.8);opacity:0}60%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
+.fade-in{animation:fi .4s ease}.pop-in{animation:pop .6s ease}
+@media(max-width:600px){.app{padding:12px}.card,.qcard{padding:24px}.qtxt{font-size:1.05rem!important}.opts{gap:8px}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+window.QUESTIONS=[
+{q:"Quand un collaborateur fait une erreur, votre premier r\u00e9flexe est de\u2026",opts:[
+{text:"Identifier le responsable et recadrer.",score:0,tag:"extractif"},
+{text:"Comprendre ce qui s\u2019est pass\u00e9 pour \u00e9viter que \u00e7a se reproduise.",score:0.5,tag:"preventif"},
+{text:"Explorer ce que cette erreur r\u00e9v\u00e8le et ce qu\u2019on peut en apprendre collectivement.",score:1,tag:"regen"}]},
+{q:"Votre vision du r\u00f4le du manager, c\u2019est\u2026",opts:[
+{text:"Atteindre les objectifs fix\u00e9s par la direction et faire tourner la boutique.",score:0,tag:"extractif"},
+{text:"D\u00e9velopper les comp\u00e9tences de l\u2019\u00e9quipe tout en d\u00e9livrant les r\u00e9sultats.",score:0.5,tag:"preventif"},
+{text:"Cr\u00e9er un \u00e9cosyst\u00e8me o\u00f9 chacun grandit et contribue \u00e0 quelque chose qui le d\u00e9passe.",score:1,tag:"regen"}]},
+{q:"L\u2019id\u00e9e de s\u2019inspirer de la nature pour mieux manager vous semble\u2026",opts:[
+{text:"Franchement farfelue. On g\u00e8re des humains, pas des for\u00eats.",score:0,tag:"extractif"},
+{text:"Int\u00e9ressante sur le papier, mais difficile \u00e0 appliquer au quotidien.",score:0.5,tag:"preventif"},
+{text:"Fascinante. Les \u00e9cosyst\u00e8mes naturels ont des millions d\u2019ann\u00e9es d\u2019exp\u00e9rience en organisation.",score:1,tag:"regen"}]},
+{q:"Quand vous pensez \u00e0 la performance de votre \u00e9quipe, vous mesurez d\u2019abord\u2026",opts:[
+{text:"Les chiffres : CA, KPI, objectifs atteints.",score:0,tag:"extractif"},
+{text:"Les chiffres et la satisfaction de l\u2019\u00e9quipe.",score:0.5,tag:"preventif"},
+{text:"La valeur cr\u00e9\u00e9e sur tous les plans : humain, social, \u00e9conomique et \u00e9cologique.",score:1,tag:"regen"}]},
+{q:"La phrase \u00ab on a toujours fait comme \u00e7a \u00bb vous inspire\u2026",opts:[
+{text:"Un certain confort : si \u00e7a marche, pourquoi changer ?",score:0,tag:"extractif"},
+{text:"De l\u2019agacement, mais vous ne savez pas toujours par o\u00f9 commencer pour changer.",score:0.5,tag:"preventif"},
+{text:"L\u2019envie de questionner, d\u2019exp\u00e9rimenter et de prouver qu\u2019on peut faire autrement.",score:1,tag:"regen"}]},
+{q:"Votre relation avec l\u2019\u00e9chec professionnel, c\u2019est\u2026",opts:[
+{text:"\u00c0 \u00e9viter absolument. L\u2019erreur co\u00fbte cher et on le fait savoir.",score:0,tag:"extractif"},
+{text:"Normal dans le processus, mais on pr\u00e9f\u00e8re ne pas trop en parler.",score:0.5,tag:"preventif"},
+{text:"Un terreau d\u2019apprentissage qu\u2019on c\u00e9l\u00e8bre presque autant que la r\u00e9ussite.",score:1,tag:"regen"}]},
+{q:"Si un talent de votre \u00e9quipe vous dit qu\u2019il r\u00eave d\u2019un poste dans un autre service, vous\u2026",opts:[
+{text:"Essayez de le retenir car son d\u00e9part vous mettrait en difficult\u00e9.",score:0,tag:"extractif"},
+{text:"L\u2019\u00e9coutez mais esp\u00e9rez secr\u00e8tement qu\u2019il reste.",score:0.5,tag:"preventif"},
+{text:"L\u2019aidez activement \u00e0 pr\u00e9parer cette transition en sachant que \u00e7a renforce la confiance de toute l\u2019\u00e9quipe.",score:1,tag:"regen"}]},
+{q:"L\u2019intelligence collective dans vos r\u00e9unions d\u2019\u00e9quipe, \u00e7a ressemble \u00e0\u2026",opts:[
+{text:"Vous pr\u00e9sentez les d\u00e9cisions, l\u2019\u00e9quipe ex\u00e9cute.",score:0,tag:"extractif"},
+{text:"Vous demandez des avis mais la d\u00e9cision finale vous revient toujours.",score:0.5,tag:"preventif"},
+{text:"Les d\u00e9cisions se co-construisent. Vous enrichissez les propositions de l\u2019\u00e9quipe autant qu\u2019elle enrichit les v\u00f4tres.",score:1,tag:"regen"}]},
+{q:"En ce moment, votre niveau d\u2019\u00e9nergie manag\u00e9riale est plut\u00f4t\u2026",opts:[
+{text:"\u00c9puis\u00e9. Vous \u00e9teignez des incendies du matin au soir.",score:1,tag:"fatigue"},
+{text:"Correct, mais vous sentez que quelque chose manque de sens.",score:0.5,tag:"quete"},
+{text:"Bon. Vous avez trouv\u00e9 un \u00e9quilibre mais cherchez \u00e0 aller plus loin.",score:0,tag:"equil"}]},
+{q:"Si ce livre pouvait changer une seule chose dans votre quotidien, ce serait\u2026",opts:[
+{text:"Arr\u00eater de courir apr\u00e8s le temps et les urgences.",score:1,tag:"fatigue"},
+{text:"Donner plus de sens \u00e0 votre management au-del\u00e0 des chiffres.",score:0.5,tag:"quete"},
+{text:"Disposer d\u2019un cadre complet pour transformer durablement votre culture d\u2019\u00e9quipe.",score:0,tag:"equil"}]}
+];
+window.RESULTS=[
+{min:0,max:1.5,color:"#C0392B",emoji:"\uD83D\uDEA8",label:"Ce livre n\u2019est probablement pas pour vous",desc:"Votre approche du management est tr\u00e8s ancr\u00e9e dans un mod\u00e8le classique fond\u00e9 sur le contr\u00f4le, les r\u00e9sultats imm\u00e9diats et la hi\u00e9rarchie descendante. Ce livre risquerait de vous irriter plus que de vous inspirer. Mais si une petite voix vous dit que quelque chose ne tourne pas rond, alors peut-\u00eatre qu\u2019un seul chapitre pourrait ouvrir une br\u00e8che.",
+recos:[{ch:"Chapitre 2",title:"Les crises manag\u00e9riales qui \u00e9puisent vos \u00e9quipes",why:"Pour v\u00e9rifier si certains sympt\u00f4mes vous parlent. C\u2019est un miroir, pas un jugement.",prio:1},
+{ch:"Chapitre 4",title:"De l\u2019urgence \u00e0 l\u2019\u00e9cologie manag\u00e9riale",why:"Pour comprendre pourquoi le management \u00ab pompier \u00bb vous \u00e9puise sans que vous le r\u00e9alisiez.",prio:2},
+{ch:"Chapitre 5",title:"Biomim\u00e9tisme et Leadership",why:"Si vous ne deviez lire qu\u2019un seul chapitre, celui-ci pourrait changer votre regard.",prio:3}]},
+{min:1.5,max:3,color:"#E67E22",emoji:"\uD83E\uDD14",label:"Ce livre va vous bousculer",desc:"Vous sentez qu\u2019il y a mieux \u00e0 faire mais vous \u00eates encore pris entre les r\u00e9flexes classiques et l\u2019envie de changer. Ce livre va mettre des mots sur ce malaise et vous montrer qu\u2019il existe un autre chemin. Pr\u00e9parez-vous \u00e0 \u00eatre d\u00e9rang\u00e9, mais dans le bon sens.",
+recos:[{ch:"Chapitre 1",title:"Anatomie d\u2019un effondrement syst\u00e9mique",why:"Pour comprendre que ce que vous ressentez a des causes structurelles, pas personnelles.",prio:1},
+{ch:"Chapitre 9",title:"Valoriser et r\u00e9parer le pass\u00e9",why:"Vous portez probablement des blessures manag\u00e9riales non trait\u00e9es. Ce chapitre les r\u00e9v\u00e8le.",prio:2},
+{ch:"Chapitre 6",title:"Permaculture organisationnelle",why:"Des principes concrets pour commencer \u00e0 transformer vos pratiques d\u00e8s lundi.",prio:3}]},
+{min:3,max:4.5,color:"#C17817",emoji:"\uD83D\uDCA1",label:"Ce livre va acc\u00e9l\u00e9rer votre transformation",desc:"Vous \u00eates d\u00e9j\u00e0 en chemin. Vous questionnez, vous exp\u00e9rimentez, mais il vous manque un cadre structur\u00e9 et des outils concrets pour aller plus loin. Ce livre va transformer vos intuitions en m\u00e9thode et vos bonnes intentions en pratiques durables.",
+recos:[{ch:"Chapitre 10",title:"Co-construire le pr\u00e9sent",why:"Passez de la bonne volont\u00e9 \u00e0 l\u2019exp\u00e9rience de travail co-con\u00e7ue avec votre \u00e9quipe.",prio:1},
+{ch:"Chapitre 12",title:"Les 6 principes du management r\u00e9g\u00e9n\u00e9ratif",why:"Le cadre complet qui va structurer toutes vos intuitions en un syst\u00e8me coh\u00e9rent.",prio:2},
+{ch:"Chapitre 8",title:"L\u2019\u00e9conomie circulaire appliqu\u00e9e au management",why:"Pour arr\u00eater de gaspiller l\u2019\u00e9nergie de vos \u00e9quipes et cr\u00e9er des boucles vertueuses.",prio:3}]},
+{min:4.5,max:5.5,color:"#4A6741",emoji:"\uD83C\uDF31",label:"Ce livre est fait pour vous",desc:"Vous avez d\u00e9j\u00e0 la posture et beaucoup d\u2019intuitions justes. Ce livre va vous donner les fondations th\u00e9oriques, les outils pratiques et la l\u00e9gitimit\u00e9 intellectuelle pour d\u00e9ployer cette approche \u00e0 grande \u00e9chelle. Vous y trouverez la feuille de route qui vous manquait.",
+recos:[{ch:"Chapitre 11",title:"Pr\u00e9parer le futur de mani\u00e8re co-responsable",why:"Vous \u00eates pr\u00eat pour la dimension future-proofing du management r\u00e9g\u00e9n\u00e9ratif.",prio:1},
+{ch:"Chapitre 13",title:"L\u2019entreprise r\u00e9g\u00e9n\u00e9rative",why:"Pour passer de votre \u00e9quipe \u00e0 l\u2019\u00e9chelle de l\u2019organisation. Les 6 \u00e9tapes de la transformation.",prio:2},
+{ch:"Chapitre 7",title:"Le cadre \u00e9conomique r\u00e9g\u00e9n\u00e9ratif",why:"L\u2019\u00e9conomie du donut et les limites plan\u00e9taires : le fondement intellectuel de votre pratique.",prio:3}]},
+{min:5.5,max:7.1,color:"#27AE60",emoji:"\uD83C\uDF3F",label:"Le livre que vous attendiez sans le savoir",desc:"Vous pratiquez d\u00e9j\u00e0 intuitivement beaucoup de principes r\u00e9g\u00e9n\u00e9ratifs. Ce livre va nommer ce que vous faites, le structurer, et vous donner les arguments et les outils pour transmettre cette approche autour de vous. Vous n\u2019\u00eates plus seul dans votre d\u00e9marche.",
+recos:[{ch:"Chapitre 14",title:"Transmettre la culture r\u00e9g\u00e9n\u00e9rative",why:"Votre prochain d\u00e9fi : faire \u00e9cole sans faire secte. Ce chapitre est votre guide de transmission.",prio:1},
+{ch:"Chapitre 3",title:"Prisonniers de notre h\u00e9ritage manag\u00e9rial",why:"M\u00eame les meilleurs ont des angles morts. Ce chapitre r\u00e9v\u00e8le les v\u00f4tres.",prio:2},
+{ch:"Conclusion",title:"Compagnon des 100 Jours",why:"L\u2019outil qui transforme tout le livre en feuille de route personnelle pour les 100 prochains jours.",prio:3}]}
+];
+window.GAUGE_SEGS=[
+{label:"Pas pour vous",color:"#C0392B"},
+{label:"Bousculant",color:"#E67E22"},
+{label:"Acc\u00e9l\u00e9rateur",color:"#C17817"},
+{label:"Fait pour vous",color:"#4A6741"},
+{label:"Attendu sans le savoir",color:"#27AE60"}
+];
+window.getResult=function(score){var R=window.RESULTS;for(var i=0;i<R.length;i++){if(score>=R[i].min&&score<R[i].max)return R[i]}return R[R.length-1]};
+</script>
+<script type="text/babel">
+var useState=React.useState;
+var QS=window.QUESTIONS,RESULTS=window.RESULTS,GAUGE=window.GAUGE_SEGS;
+
+function App(){
+var _s=useState("intro"),screen=_s[0],setScreen=_s[1];
+var _q=useState(0),curQ=_q[0],setCurQ=_q[1];
+var _a=useState({}),answers=_a[0],setAnswers=_a[1];
+
+function go(s){setScreen(s);window.scrollTo({top:0,behavior:"smooth"})}
+
+function pick(qi,oi){
+var n={};for(var k in answers)n[k]=answers[k];n[qi]=oi;setAnswers(n);
+setTimeout(function(){if(qi<QS.length-1){setCurQ(qi+1)}else{go("results")}},400);
+}
+
+var totalScore=0;var answered=Object.keys(answers).length;
+for(var k in answers){var qi=parseInt(k);var oi=answers[k];totalScore+=QS[qi].opts[oi].score}
+var maxScore=QS.length;
+var score7=totalScore/maxScore*7;
+var result=window.getResult(score7);
+var pct=answered/QS.length*100;
+
+if(screen==="intro"){return(
+<div className="app">
+<div className="hero"><h1>Ce livre est-il <span className="accent">pour vous</span> ?</h1><p className="sub">10 questions. 2 minutes. Un verdict et vos chapitres prioritaires.</p><span className="pill">&#128218; Management R&eacute;g&eacute;n&eacute;ratif</span></div>
+<div className="card"><h2>Le test le plus court de votre vie manag&eacute;riale</h2>
+<p>Vous avez entendu parler de management r&eacute;g&eacute;n&eacute;ratif et vous vous demandez si ce livre m&eacute;rite votre temps.</p><p>R&eacute;pondez &agrave; 10 questions en toute sinc&eacute;rit&eacute;.</p>
+<p style={{fontStyle:"italic",color:"var(--or)"}}>&#192; la fin, vous saurez si ce livre est fait pour vous et par quels chapitres commencer.</p>
+<div style={{textAlign:"center",marginTop:"24px"}}><button className="btn bp" onClick={function(){go("quiz")}}>C'est parti &#8594;</button></div>
+</div>
+<div className="foot">Management r&eacute;g&eacute;n&eacute;ratif de Benjamin Chaminade</div>
+</div>)}
+
+if(screen==="quiz"){var q=QS[curQ];var selOpt=answers[curQ];return(
+<div className="app">
+<div className="pbar"><div className="pfill" style={{width:((curQ+1)/QS.length*100)+"%"}}/></div>
+<div style={{display:"flex",justifyContent:"space-between",fontSize:".76rem",color:"var(--gris)",marginBottom:"8px"}}><span>Question {curQ+1}/{QS.length}</span>{curQ>0&&<span style={{cursor:"pointer",color:"var(--or)",fontWeight:600}} onClick={function(){setCurQ(curQ-1)}}>{"\u2190"} Pr&eacute;c&eacute;dente</span>}</div>
+<div className="qcard fade-in" key={curQ}>
+<div className="qnum">Question {curQ+1} sur {QS.length}</div>
+<div className="qtxt">{q.q}</div>
+<div className="opts">{q.opts.map(function(o,oi){var isSel=selOpt===oi;return(
+<div key={oi} className={"opt"+(isSel?" sel":"")} onClick={function(){pick(curQ,oi)}}>
+<div className="opt-dot"></div>
+<span>{o.text}</span>
+</div>)})}</div>
+</div>
+<div className="foot" style={{paddingTop:"12px"}}>Management r&eacute;g&eacute;n&eacute;ratif &#8212; Benjamin Chaminade</div>
+</div>)}
+
+var gaugeLeft=score7/7*100;
+return(
+<div className="app">
+<div style={{textAlign:"center",margin:"30px 0 10px"}}><div style={{fontFamily:"Playfair Display",fontSize:"1.2rem",color:"var(--gris)"}}>Votre r&eacute;sultat</div></div>
+
+<div className="card pop-in">
+<div className="result-score"><div className="rs-num" style={{color:result.color}}>{score7.toFixed(1)}<span style={{fontSize:"1.5rem",color:"var(--gris)"}}>/7</span></div><div className="rs-label" style={{color:result.color}}>{result.emoji} {result.label}</div></div>
+
+<div style={{position:"relative",margin:"28px auto",maxWidth:"520px"}}>
+<div className="gauge">{GAUGE.map(function(g,gi){return(<div key={gi} className="gauge-seg" style={{background:g.color}}>{g.label}</div>)})}</div>
+<div className="gauge-marker" style={{left:"calc("+Math.min(98,Math.max(2,gaugeLeft))+"% - 2px)"}}/>
+</div>
+
+<div className="result-desc">{result.desc}</div>
+</div>
+
+<div className="card"><h2>Vos 3 chapitres prioritaires</h2>
+<p style={{fontSize:".86rem",color:"var(--gris)",marginBottom:"16px"}}>Compte tenu de vos r&eacute;ponses, voici par o&ugrave; commencer votre lecture.</p>
+{result.recos.map(function(r){var colors=["var(--or)","var(--mousse)","var(--ciel)"];return(
+<div key={r.ch} className="chap-reco">
+<div className="cr-prio" style={{background:colors[r.prio-1]}}>{r.prio}</div>
+<div className="cr-body"><div className="cr-title">{r.ch} : {r.title}</div><div className="cr-why">{r.why}</div></div>
+</div>)})}
+</div>
+
+<div className="cta"><h2>Pr&ecirc;t &agrave; commencer ?</h2><p>Le management r&eacute;g&eacute;n&eacute;ratif n'est pas une mode. C'est une n&eacute;cessit&eacute; &eacute;volutive pour des organisations qui veulent prosp&eacute;rer dans un monde complexe.</p><button className="cta-btn" onClick={function(){window.location.href="https://benjaminchaminade.com/category/management-regeneratif/"}}>En savoir plus</button></div>
+
+<div className="share-row">
+<button className="btn bs" onClick={function(){setAnswers({});setCurQ(0);go("intro")}}>Refaire le test</button>
+</div>
+<div className="foot">Management r&eacute;g&eacute;n&eacute;ratif de Benjamin Chaminade<br/>&#171; Cr&eacute;er plus de valeur qu'on n'en consomme &#187;</div>
+</div>)}
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body></html>
