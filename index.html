@@ -92,7 +92,7 @@ window.QUESTIONS=[
 {text:"Donner plus de sens \u00e0 votre management au-del\u00e0 des chiffres.",score:0.5,tag:"quete"},
 {text:"Disposer d\u2019un cadre complet pour transformer durablement votre culture d\u2019\u00e9quipe.",score:0,tag:"equil"}]}
 ];
-window.QUESTIONS=window._shuffle(window.QUESTIONS);
+window.QUESTIONS=window._shuffle(window.QUESTIONS).map(function(q){return {q:q.q,opts:window._shuffle(q.opts.slice())};});
 window.RESULTS=[
 {min:0,max:1.5,color:"#C0392B",emoji:"\uD83D\uDEA8",label:"Ce livre n\u2019est probablement pas pour vous",desc:"Votre approche du management est tr\u00e8s ancr\u00e9e dans un mod\u00e8le classique fond\u00e9 sur le contr\u00f4le, les r\u00e9sultats imm\u00e9diats et la hi\u00e9rarchie descendante. Ce livre risquerait de vous irriter plus que de vous inspirer. Mais si une petite voix vous dit que quelque chose ne tourne pas rond, alors peut-\u00eatre qu\u2019un seul chapitre pourrait ouvrir une br\u00e8che.",
 recos:[{ch:"Chapitre 2",title:"Les crises manag\u00e9riales qui \u00e9puisent vos \u00e9quipes",why:"Pour v\u00e9rifier si certains sympt\u00f4mes vous parlent. C\u2019est un miroir, pas un jugement.",prio:1},
