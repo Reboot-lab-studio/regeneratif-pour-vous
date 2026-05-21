@@ -38,6 +38,9 @@
 .bp{background:var(--or);color:#fff}.bp:hover{background:#D4A544;transform:translateY(-1px)}.bp:disabled{background:var(--sable-dark);color:var(--gris);cursor:not-allowed;transform:none}
 .bs{background:var(--creme);color:var(--terre);border:1px solid var(--sable-dark)}.bs:hover{background:var(--sable)}
 .cta{background:linear-gradient(135deg,var(--fond),var(--terre));border-radius:16px;padding:32px;margin:20px 0;text-align:center;color:var(--creme)}.cta h2{color:var(--or);font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:8px}.cta p{color:rgba(248,244,236,.8);font-size:.9rem;margin-bottom:16px}.cta-btn{display:inline-block;background:var(--or);color:#fff;padding:12px 28px;border-radius:12px;font-weight:600;font-size:.95rem;border:none;cursor:pointer;font-family:'Libre Franklin',sans-serif}.cta-btn:hover{background:#D4A544}
+.video-wrap{position:relative;width:100%;padding-top:56.25%;margin:8px 0 24px;border-radius:14px;overflow:hidden;border:1px solid var(--sable-dark);box-shadow:0 4px 20px rgba(26,22,18,.08)}
+.video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+.video-label{font-size:.78rem;font-weight:600;color:var(--or);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;display:flex;align-items:center;gap:6px}
 .share-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:16px 0}
 .foot{text-align:center;padding:24px 20px;font-size:.78rem;color:var(--gris);line-height:1.8}
 @keyframes fi{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
@@ -155,6 +158,8 @@ if(screen==="intro"){return(
 <div className="card"><h2>Le test le plus court de votre vie manag&eacute;riale</h2>
 <p>Vous avez entendu parler de management r&eacute;g&eacute;n&eacute;ratif et vous vous demandez si ce livre m&eacute;rite votre temps.</p><p>R&eacute;pondez &agrave; 10 questions en toute sinc&eacute;rit&eacute;.</p>
 <p style={{fontStyle:"italic",color:"var(--or)"}}>&#192; la fin, vous saurez si ce livre est fait pour vous et par quels chapitres commencer.</p>
+<div className="video-label">&#9654; En 2 minutes avec Benjamin Chaminade</div>
+<div className="video-wrap"><iframe src="https://www.youtube.com/embed/hdqvhK-7NC4" title="Le management r&eacute;g&eacute;n&eacute;ratif en 2 minutes" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe></div>
 <div style={{textAlign:"center",marginTop:"24px"}}><button className="btn bp" onClick={function(){go("quiz")}}>C'est parti &#8594;</button></div>
 </div>
 <div className="foot">Guide du management r&eacute;g&eacute;n&eacute;ratif de Benjamin Chaminade<br/><img src={window.GERESO_LOGO} alt="GERESO" style={{height:"40px",marginTop:"10px",opacity:.7,display:"block",marginLeft:"auto",marginRight:"auto"}}/></div>
